@@ -10,4 +10,5 @@ public class Post : EntityBase
     public string AuthorId { get; set; } = default!;
 
     public ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public IApplicationUser Author { get; set; } = default!;
 }

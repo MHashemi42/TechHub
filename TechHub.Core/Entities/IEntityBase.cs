@@ -1,8 +1,8 @@
 ﻿namespace TechHub.Core.Entities;
 
-public abstract class EntityBase : IEntityBase<int>
+public interface IEntityBase<T>
 {
-    public int Id { get; set; }
+    public T Id { get; set; }
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
 }
