@@ -2,6 +2,7 @@
 
 public class Post : EntityBase
 {
+    public int PostId { get; set; }
     public string Title { get; set; } = default!;
     public string Slug { get; set; } = default!;
     public string Content { get; set; } = default!;
