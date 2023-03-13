@@ -6,4 +6,6 @@ public interface IApplicationUser : IEntityBase<string>
     public string DisplayName { get; set; }
     public string Email { get; set; }
     public string? AvatarPath { get; set; }
+
+    public ICollection<Post> Posts { get; set; }
 }
