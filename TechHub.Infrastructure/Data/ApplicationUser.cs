@@ -3,7 +3,7 @@ using TechHub.Core.Entities;
 
 namespace TechHub.Infrastructure.Data;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser, IEntityBase
 {
     public string DisplayName { get; set; } = default!;
     public string? AvatarPath { get; set; }
