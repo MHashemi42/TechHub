@@ -10,18 +10,18 @@ internal class PostConfiguration : IEntityTypeConfiguration<Post>
     {
         post.Property(p => p.Title)
             .IsRequired()
-            .HasMaxLength(150);
+            .HasMaxLength(256);
 
         post.Property(p => p.Slug)
             .IsRequired()
-            .HasMaxLength(150);
+            .HasMaxLength(256);
 
         post.Property(p => p.Content)
             .IsRequired();
 
         post.Property(p => p.ThumbnailPath)
             .IsRequired()
-            .HasMaxLength(500);
+            .HasMaxLength(512);
 
         post.HasMany(p => p.Tags)
             .WithMany(t => t.Posts);

@@ -10,11 +10,11 @@ internal class TagConfiguration : IEntityTypeConfiguration<Tag>
     {
         tag.Property(t => t.Name)
            .IsRequired()
-           .HasMaxLength(150);
+           .HasMaxLength(256);
 
         tag.Property(t => t.Slug)
            .IsRequired()
-           .HasMaxLength(200);
+           .HasMaxLength(256);
 
         tag.HasMany(t => t.Posts)
            .WithMany(p => p.Tags);
