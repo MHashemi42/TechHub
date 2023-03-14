@@ -23,9 +23,6 @@ internal class PostConfiguration : IEntityTypeConfiguration<Post>
             .IsRequired()
             .HasMaxLength(500);
 
-        post.HasOne(p => p.Author)
-            .WithMany(a => a.Posts);
-
         post.HasMany(p => p.Tags)
             .WithMany(t => t.Posts);
     }

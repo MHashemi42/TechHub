@@ -2,7 +2,6 @@
 
 public class Post : EntityBase
 {
-    public int PostId { get; set; }
     public string Title { get; set; } = default!;
     public string Slug { get; set; } = default!;
     public string Content { get; set; } = default!;
@@ -11,5 +10,4 @@ public class Post : EntityBase
     public string AuthorId { get; set; } = default!;
 
     public ICollection<Tag> Tags { get; set; } = new List<Tag>();
-    public IApplicationUser Author { get; set; } = default!;
 }

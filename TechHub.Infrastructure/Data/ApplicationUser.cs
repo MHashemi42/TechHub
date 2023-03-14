@@ -5,7 +5,7 @@ namespace TechHub.Infrastructure.Data;
 
 #nullable disable
 
-internal class ApplicationUser : IdentityUser, IApplicationUser
+internal class ApplicationUser : IdentityUser
 {
     public string DisplayName { get; set; }
     public string AvatarPath { get; set; }
