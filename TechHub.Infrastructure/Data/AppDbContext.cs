@@ -25,7 +25,7 @@ internal class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         IEnumerable<EntityEntry> entries = ChangeTracker
                         .Entries()
-                        .Where(e => e.Entity is IEntityBase &&
+                        .Where(e => e.Entity is EntityBase &&
                                 (e.State == EntityState.Added ||
                                 e.State == EntityState.Modified));
 
@@ -33,11 +33,11 @@ internal class AppDbContext : IdentityDbContext<ApplicationUser>
         {
             DateTime utcNow = DateTime.UtcNow;
 
-            ((IEntityBase)entityEntry.Entity).DateModified = utcNow;
+            ((EntityBase)entityEntry.Entity).DateModified = utcNow;
 
             if (entityEntry.State == EntityState.Added)
             {
-                ((IEntityBase)entityEntry.Entity).DateCreated = utcNow;
+                ((EntityBase)entityEntry.Entity).DateCreated = utcNow;
             }
         }
 
