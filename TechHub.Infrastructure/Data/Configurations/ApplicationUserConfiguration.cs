@@ -8,6 +8,7 @@ internal class ApplicationUserConfiguration : IEntityTypeConfiguration<Applicati
     public void Configure(EntityTypeBuilder<ApplicationUser> user)
     {
         user.HasMany(u => u.Posts)
-            .WithOne();
+            .WithOne()
+            .HasForeignKey(p => p.AuthorId);
     }
 }
