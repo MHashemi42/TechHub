@@ -3,14 +3,12 @@ using TechHub.Core.Entities;
 
 namespace TechHub.Infrastructure.Data;
 
-#nullable disable
-
 internal class ApplicationUser : IdentityUser
 {
-    public string DisplayName { get; set; }
-    public string AvatarPath { get; set; }
+    public string DisplayName { get; set; } = default!;
+    public string? AvatarPath { get; set; }
     public DateTime DateCreated { get; set; }
     public DateTime DateModified { get; set; }
 
-    public ICollection<Post> Posts { get; set; }
+    public ICollection<Post> Posts { get; set; } = new List<Post>();
 }

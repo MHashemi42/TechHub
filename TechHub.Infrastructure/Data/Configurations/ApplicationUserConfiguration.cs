@@ -10,5 +10,12 @@ internal class ApplicationUserConfiguration : IEntityTypeConfiguration<Applicati
         user.HasMany(u => u.Posts)
             .WithOne()
             .HasForeignKey(p => p.AuthorId);
+
+        user.Property(u => u.DisplayName)
+            .IsRequired()
+            .HasMaxLength(256);
+
+        user.Property(u => u.AvatarPath)
+            .HasMaxLength(512);
     }
 }
