@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using TechHub.Core.Entities;
+using TechHub.Core.Entities.Base;
 
 namespace TechHub.Infrastructure.Data;
 
@@ -25,7 +26,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         IEnumerable<EntityEntry> entries = ChangeTracker
                         .Entries()
-                        .Where(e => e.Entity is IEntityBase &&
+                        .Where(e => e.Entity is IAuditableEntity &&
                                 (e.State == EntityState.Added ||
                                 e.State == EntityState.Modified));
 
@@ -33,11 +34,11 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         {
             DateTime utcNow = DateTime.UtcNow;
 
-            ((IEntityBase)entityEntry.Entity).DateModified = utcNow;
+            ((IAuditableEntity)entityEntry.Entity).ModifiedOnUtc = utcNow;
 
             if (entityEntry.State == EntityState.Added)
             {
-                ((IEntityBase)entityEntry.Entity).DateCreated = utcNow;
+                ((IAuditableEntity)entityEntry.Entity).CreatedOnUtc = utcNow;
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace TechHub.Core.Entities;
+﻿using TechHub.Core.Entities.Base;
+
+namespace TechHub.Core.Entities;
 
 public class Tag : EntityBase
 {
