@@ -2,7 +2,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TechHub.Core.Repositories;
 using TechHub.Infrastructure.Data;
+using TechHub.Infrastructure.Data.Repositories;
 
 namespace TechHub.Infrastructure;
 
@@ -19,5 +21,14 @@ public static class Dependencies
         {
             options.User.RequireUniqueEmail = true;
         });
+
+        AddRepositories(services);
+    }
+
+    private static void AddRepositories(IServiceCollection services)
+    {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ITagRepository, TagRepository>();
+        services.AddScoped<IPostRepository, PostRepository>();
     }
 }
