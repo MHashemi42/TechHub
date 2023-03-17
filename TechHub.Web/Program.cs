@@ -4,6 +4,8 @@ using TechHub.Infrastructure.Data;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRazorPages();
+
 builder.Host.UseSerilog((context, configuration) => 
     configuration.ReadFrom.Configuration(context.Configuration));
 
@@ -35,8 +37,21 @@ using (IServiceScope scope = app.Services.CreateScope())
     }
 }
 
-app.UseSerilogRequestLogging();
+// Configure the HTTP request pipeline.
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/Error");    
+    app.UseHsts();
+}
 
-app.MapGet("/", () => "Hello World!");
+app.UseSerilogRequestLogging();
+app.UseHttpsRedirection();
+app.UseStaticFiles();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.MapRazorPages();
 
 app.Run();
