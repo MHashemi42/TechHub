@@ -29,7 +29,7 @@ using (IServiceScope scope = app.Services.CreateScope())
             .GetRequiredService<RoleManager<IdentityRole>>();
 
         AppDbContext dbContext = scopedProvider.GetRequiredService<AppDbContext>();
-        await AppDbContextSeed.SeedIdentityAsync(dbContext, userManager, roleManager);
+        await AppDbContextSeed.SeedDataAsync(dbContext, userManager, roleManager);
     }
     catch (Exception ex)
     {
