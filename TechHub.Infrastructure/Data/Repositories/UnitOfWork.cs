@@ -16,8 +16,6 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        UpdateAuditableEntities();
-
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
 

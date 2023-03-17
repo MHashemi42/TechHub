@@ -21,4 +21,33 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         base.OnModelCreating(builder);
     }
+
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        UpdateAuditableEntities();
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void UpdateAuditableEntities()
+    {
+        IEnumerable<EntityEntry<IAuditableEntity>> entries =
+            ChangeTracker
+            .Entries<IAuditableEntity>();
+
+        foreach (EntityEntry<IAuditableEntity> entityEntry in entries)
+        {
+            if (entityEntry.State == EntityState.Added)
+            {
+                entityEntry.Property(e => e.CreatedOnUtc)
+                    .CurrentValue = DateTime.UtcNow;
+            }
+
+            if (entityEntry.State == EntityState.Modified)
+            {
+                entityEntry.Property(e => e.ModifiedOnUtc)
+                    .CurrentValue = DateTime.UtcNow;
+            }
+        }
+    }
 }
