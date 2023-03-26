@@ -1,0 +1,39 @@
+﻿@model PostSummaryDto
+
+<article class="my-3">
+    <header class="mb-3 row justify-content-lg-center">
+        <div class="col-lg-9">
+            <div class="mb-2 fw-bold">
+                <span class="text-danger">ویژه: </span>
+                <time datetime="2023-03-07">@Model.DatePublished</time>
+            </div>
+            <h2>
+                <a href="/@Model.Slug">@Model.Title</a>
+            </h2>
+        </div>
+    </header>
+    <div>
+        <a href="./@Model.Slug">
+            <img class="img-fluid" src="./@Model.ThumbnailPath">
+        </a>
+    </div>
+    <div class="mt-4">
+        <p>@Model.PreviewContent</p>
+        <div class="row align-items-center">
+            <p class="col-md-auto me-auto">
+                <a class="btn btn-outline-danger">ادامه خواندن</a>
+            </p>
+            <p class="col-auto">
+                <span class="text-danger">تگ ها: </span>
+                @foreach (var tag in Model.Tags)
+                {
+                    <a href="./tags/@tag.Slug">@tag.Name</a>
+                    @if (tag != Model.Tags.Last())
+                    {
+                        <span>-</span>
+                    }
+                }
+            </p>
+        </div>
+    </div>
+</article>
