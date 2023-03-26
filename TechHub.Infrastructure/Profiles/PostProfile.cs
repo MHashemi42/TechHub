@@ -10,13 +10,16 @@ internal class PostProfile : Profile
 {
 	public PostProfile()
 	{
+		bool appendHhMm = true;
+		bool convertToIranTimeZone = true;
+		bool includePersianDate = true;
+
 		CreateMap<Post, PostSummaryDto>()
 			.ForMember(p => p.PreviewContent,
 						m => m.MapFrom(p => HtmlHelpers.GetFirstParagraph(p.Content)))
 			.ForMember(p => p.DatePublished,
-						m => m.MapFrom(p => ToPersianDate(p.DatePublished)));
+						m => m.MapFrom(p => p.DatePublished
+						.ToFriendlyPersianDateTextify(appendHhMm, convertToIranTimeZone,
+													  includePersianDate)));
 	}
-
-	public string ToPersianDate(DateTime dateTime) => 
-		dateTime.ToFriendlyPersianDateTextify(appendHhMm: true, convertToIranTimeZone: true, includePersianDate: false);
 }
