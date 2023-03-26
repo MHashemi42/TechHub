@@ -21,6 +21,7 @@ internal class TagRepository : ITagRepository
     public async Task<IEnumerable<Tag>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Tags
+            .AsNoTracking()
             .ToListAsync(cancellationToken);
     }
 

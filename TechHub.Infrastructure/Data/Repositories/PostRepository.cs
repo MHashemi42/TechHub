@@ -21,6 +21,7 @@ internal class PostRepository : IPostRepository
     public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext.Posts
+            .AsNoTracking()
             .Include(p => p.Tags)
             .ToListAsync(cancellationToken);
     }
