@@ -3,3 +3,27 @@
 @{
     ViewData["Title"] = "تک‌هاب | اخبار فناوری";
 }
+
+<div class="row justify-content-center my-5">
+    <div class="col-lg-9">
+        <partial name="_PostFeatured" model="Model.PostSummaryDtos.First()" />
+    </div>
+</div>
+
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-lg-9 h4 pb-2 my-4 border-bottom border-danger border-3 fw-light">
+        آخرین پست ها
+    </div>
+</div>
+
+@foreach (var post in Model.PostSummaryDtos.Skip(1))
+{
+    <div class="row justify-content-center my-2">
+        <div class="col-lg-9">
+            <partial name="_PostSummary" model="post" />
+            <hr>
+        </div>
+    </div>
+}
