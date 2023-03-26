@@ -7,7 +7,7 @@ public class PostSummaryDto
     public string Slug { get; set; } = default!;
     public string PreviewContent { get; set; } = default!;
     public string ThumbnailPath { get; set; } = default!;
-    public DateTime DatePublished { get; set; }
+    public string DatePublished { get; set; } = default!;
 
     public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
 }
