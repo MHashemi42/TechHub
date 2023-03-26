@@ -3,8 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TechHub.Core.Repositories;
+using TechHub.Core.Services;
 using TechHub.Infrastructure.Data;
 using TechHub.Infrastructure.Data.Repositories;
+using TechHub.Infrastructure.Services;
 
 namespace TechHub.Infrastructure;
 
@@ -23,8 +25,14 @@ public static class Dependencies
         });
 
         AddRepositories(services);
+        AddServices(services);
 
         services.AddAutoMapper(typeof(Dependencies).Assembly);
+    }
+
+    private static void AddServices(IServiceCollection services)
+    {
+        services.AddScoped<IPostService, PostService>();
     }
 
     private static void AddRepositories(IServiceCollection services)
