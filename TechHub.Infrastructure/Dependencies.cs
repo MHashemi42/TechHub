@@ -23,6 +23,8 @@ public static class Dependencies
         });
 
         AddRepositories(services);
+
+        services.AddAutoMapper(typeof(Dependencies).Assembly);
     }
 
     private static void AddRepositories(IServiceCollection services)
