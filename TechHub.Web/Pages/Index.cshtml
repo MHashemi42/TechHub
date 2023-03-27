@@ -1,24 +1,33 @@
-﻿@page
+﻿@page "{currentPage:int?}"
 @model TechHub.Web.Pages.IndexModel
 @{
     ViewData["Title"] = "تک‌هاب | اخبار فناوری";
 }
 
-<div class="row justify-content-center my-5">
-    <div class="col-lg-9">
-        <partial name="_PostFeatured" model="Model.PostSummaryDtos.First()" />
+@if (Model.CurrentPage == 1)
+{
+    <div class="row justify-content-center my-5">
+        <div class="col-lg-9">
+            <partial name="_PostFeatured" model="Model.PostSummaryDtos.First()" />
+        </div>
     </div>
-</div>
-
-<hr />
+    <hr />
+}
 
 <div class="row justify-content-center">
     <div class="col-lg-9 h4 pb-2 my-4 border-bottom border-danger border-3 fw-light">
-        آخرین پست ها
+        @if (Model.CurrentPage > 1)
+        {
+            <span>آخرین پست ها | صفحه @Model.CurrentPage</span>
+        }
+        else
+        {
+            <span>آخرین پست ها</span>
+        }
     </div>
 </div>
 
-@foreach (var post in Model.PostSummaryDtos.Skip(1))
+@foreach (var post in Model.PostSummaryDtos.Skip(Model.CurrentPage == 1 ? 1 : 0))
 {
     <div class="row justify-content-center my-2">
         <div class="col-lg-9">
@@ -27,3 +36,17 @@
         </div>
     </div>
 }
+
+<div class="row justify-content-center my-2">
+    <div class="col-auto">
+        <ul class="pagination">
+            <li class="page-item @(Model.PostSummaryDtos.MetaData.HasPrevious ? "" : "disabled")">
+                <a asp-page="Index" asp-route-currentPage="@(Model.CurrentPage - 1)" class="page-link">قبلی</a>
+            </li>
+
+            <li class="page-item @(Model.PostSummaryDtos.MetaData.HasNext ? "" : "disabled")">
+                <a asp-page="Index" asp-route-currentPage="@(Model.CurrentPage + 1)" class="page-link">بعدی</a>
+            </li>
+        </ul>
+    </div>
+</div>

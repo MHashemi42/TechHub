@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechHub.Core.Entities;
+using TechHub.Core.Helpers;
 using TechHub.Core.Repositories;
 
 namespace TechHub.Infrastructure.Data.Repositories;
@@ -18,12 +19,20 @@ internal class PostRepository : IPostRepository
         _dbContext.Posts.Add(post);
     }
 
-    public async Task<IEnumerable<Post>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedList<Post>> GetAllAsync(int currentPage, int pageSize,
+        CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Posts
+        List<Post> posts = await _dbContext.Posts
             .AsNoTracking()
             .Include(p => p.Tags)
+            .OrderByDescending(p => p.DatePublished)
+            .Skip((currentPage - 1) * pageSize)
+            .Take(pageSize)
             .ToListAsync(cancellationToken);
+
+        int count = await _dbContext.Posts.CountAsync(cancellationToken);
+
+        return new PagedList<Post>(posts, count, currentPage, pageSize);
     }
 
     public async Task<Post?> GetByIdAsync(int id, CancellationToken cancellationToken = default)

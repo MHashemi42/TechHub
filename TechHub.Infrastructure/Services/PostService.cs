@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using TechHub.Core.DTOs;
 using TechHub.Core.Entities;
+using TechHub.Core.Helpers;
 using TechHub.Core.Repositories;
 using TechHub.Core.Services;
 
@@ -21,16 +22,19 @@ internal class PostService : IPostService
         _mapper = mapper;
     }
 
-    public async Task<IEnumerable<PostSummaryDto>> GetPostSummaryDtosAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedList<PostSummaryDto>>
+        GetPostSummaryDtosAsync(int currentPage, int pageSize,
+            CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Getting Posts from database.");
-        IEnumerable<Post> posts = await _postRepository.GetAllAsync(cancellationToken);
+        PagedList<Post> posts = await _postRepository
+            .GetAllAsync(currentPage, pageSize,cancellationToken);
 
-        _logger.LogInformation("Mapping Posts to PostSummaryDto.");
-        IEnumerable<PostSummaryDto> postSummaryDtos = 
-            _mapper.Map<IEnumerable<PostSummaryDto>>(source: posts);
+        _logger.LogInformation("Mapping Posts to PostSummaryDtos.");
+        PagedList<PostSummaryDto> postSummaryDtos = 
+            _mapper.Map<PagedList<PostSummaryDto>>(source: posts);
 
-        _logger.LogInformation("Returning postSummaryDtos.");
+        _logger.LogInformation("Returning PostSummaryDtos.");
         return postSummaryDtos;
     }
 }
