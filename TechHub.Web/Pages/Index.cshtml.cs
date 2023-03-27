@@ -3,22 +3,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using TechHub.Core.DTOs;
 using TechHub.Core.Helpers;
 using TechHub.Core.Services;
+using TechHub.Web.Models;
 
 namespace TechHub.Web.Pages;
+
+#nullable disable warnings
 
 public class IndexModel : PageModel
 {
     private readonly IPostService _postService;
-    public PagedList<PostSummaryDto> PostSummaryDtos { get; set; }
-        = new PagedList<PostSummaryDto>();
 
     public IndexModel(IPostService postService)
     {
         _postService = postService;
     }
 
+    public PagedList<PostSummaryDto> PostSummaryDtos { get; set; }
+
     [BindProperty(SupportsGet = true)]
     public int CurrentPage { get; set; } = 1;
+
+    public Pagination Pagination { get; set; }
 
     public async Task<IActionResult> OnGetAsync(CancellationToken cancellationToken)
     {
@@ -33,6 +38,9 @@ public class IndexModel : PageModel
         {
             return RedirectToPage("NotFound");
         }
+
+        Pagination = new Pagination(PageName: "Index", CurrentPage,
+            PostSummaryDtos.MetaData.HasPrevious, PostSummaryDtos.MetaData.HasNext);
 
         return Page();
     }
