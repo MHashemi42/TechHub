@@ -1,0 +1,11 @@
+﻿@model Pagination
+
+<ul class="pagination">
+    <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
+        <a asp-page="@Model.PageName" asp-route-currentPage="@(Model.CurrentPage - 1)" class="page-link">قبلی</a>
+    </li>
+
+    <li class="page-item @(Model.HasNext ? "" : "disabled")">
+        <a asp-page="@Model.PageName" asp-route-currentPage="@(Model.CurrentPage + 1)" class="page-link">بعدی</a>
+    </li>
+</ul>
