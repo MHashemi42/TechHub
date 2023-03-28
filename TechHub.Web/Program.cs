@@ -5,6 +5,7 @@ using TechHub.Infrastructure.Data;
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddRazorPages();
+builder.Services.Configure<RouteOptions>(options => options.LowercaseUrls = true);
 
 builder.Host.UseSerilog((context, configuration) => 
     configuration.ReadFrom.Configuration(context.Configuration));
@@ -40,7 +41,7 @@ using (IServiceScope scope = app.Services.CreateScope())
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");    
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
