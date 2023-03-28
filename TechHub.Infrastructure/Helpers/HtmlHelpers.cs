@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+﻿using HtmlAgilityPack;
 
 namespace TechHub.Infrastructure.Helpers;
 
@@ -6,12 +6,15 @@ public static class HtmlHelpers
 {
     public static string GetFirstParagraphFromHtml(string html)
     {
-        Match match = RegexHelpers.GetFirstParagraphFromHtml().Match(html);
-        if (match.Success)
+        if (string.IsNullOrWhiteSpace(html))
         {
-            return match.Groups[1].Value;
+            return string.Empty;
         }
 
-        return string.Empty;
+        var doc = new HtmlDocument();
+        doc.LoadHtml(html);
+        HtmlNode firstParagraph = doc.DocumentNode.SelectSingleNode("//p[1]");
+
+        return firstParagraph?.InnerHtml ?? string.Empty;
     }
 }
