@@ -45,6 +45,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.UseStatusCodePagesWithReExecute("/NotFound");
 app.UseSerilogRequestLogging();
 app.UseHttpsRedirection();
 app.UseStaticFiles();
