@@ -17,7 +17,7 @@ internal class PostProfile : Profile
 
         CreateMap<Post, PostSummaryDto>()
             .ForMember(p => p.PreviewContent,
-                        m => m.MapFrom(p => HtmlHelpers.GetFirstParagraph(p.Content)))
+                        m => m.MapFrom(p => HtmlHelpers.GetFirstParagraphFromHtml(p.Content)))
             .ForMember(p => p.DatePublished,
                         m => m.MapFrom(p => p.DatePublished
                         .ToFriendlyPersianDateTextify(appendHhMm, convertToIranTimeZone,

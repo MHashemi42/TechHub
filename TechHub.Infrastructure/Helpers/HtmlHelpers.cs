@@ -2,9 +2,9 @@
 
 namespace TechHub.Infrastructure.Helpers;
 
-internal static class HtmlHelpers
+public static class HtmlHelpers
 {
-    public static string GetFirstParagraph(string html)
+    public static string GetFirstParagraphFromHtml(string html)
     {
         Match match = RegexHelpers.GetFirstParagraphFromHtml().Match(html);
         if (match.Success)
