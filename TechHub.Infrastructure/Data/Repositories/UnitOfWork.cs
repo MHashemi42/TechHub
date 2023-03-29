@@ -18,27 +18,4 @@ public class UnitOfWork : IUnitOfWork
     {
         await _dbContext.SaveChangesAsync(cancellationToken);
     }
-
-    private void UpdateAuditableEntities()
-    {
-        IEnumerable<EntityEntry<IAuditableEntity>> entries =
-            _dbContext
-                .ChangeTracker
-                .Entries<IAuditableEntity>();
-
-        foreach (EntityEntry<IAuditableEntity> entityEntry in entries)
-        {
-            if (entityEntry.State == EntityState.Added)
-            {
-                entityEntry.Property(e => e.CreatedOnUtc)
-                    .CurrentValue = DateTime.UtcNow;
-            }
-
-            if (entityEntry.State == EntityState.Modified)
-            {
-                entityEntry.Property(e => e.ModifiedOnUtc)
-                    .CurrentValue = DateTime.UtcNow;
-            }
-        }
-    }
 }
