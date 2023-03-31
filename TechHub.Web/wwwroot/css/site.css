@@ -1,4 +1,8 @@
-﻿article a {
+﻿body {
+    font-family: Vazirmatn, sans-serif;
+}
+
+article a {
     color: inherit;
     text-decoration: none;
 }
