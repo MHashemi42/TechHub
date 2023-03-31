@@ -12,7 +12,6 @@ internal class PostProfile : Profile
     public PostProfile()
     {
         bool appendHhMm = true;
-        bool convertToIranTimeZone = true;
         bool includePersianDate = true;
 
         CreateMap<Post, PostSummaryDto>()
@@ -20,8 +19,7 @@ internal class PostProfile : Profile
                         m => m.MapFrom(p => HtmlHelpers.GetFirstParagraphFromHtml(p.Content)))
             .ForMember(p => p.DatePublished,
                         m => m.MapFrom(p => p.DatePublished
-                        .ToFriendlyPersianDateTextify(appendHhMm, convertToIranTimeZone,
-                                                      includePersianDate)));
+                        .ToFriendlyPersianDateTextify(appendHhMm, includePersianDate)));
 
         CreateMap<PagedList<Post>, PagedList<PostSummaryDto>>()
             .ConvertUsing<PagedListConverter<Post, PostSummaryDto>>();

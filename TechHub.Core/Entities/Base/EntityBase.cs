@@ -3,6 +3,6 @@
 public abstract class EntityBase : IEntityBase
 {
     public int Id { get; set; }
-    public DateTime CreatedOnUtc { get; set; }
-    public DateTime ModifiedOnUtc { get; set; }
+    public DateTimeOffset CreatedOn { get; set; }
+    public DateTimeOffset ModifiedOn { get; set; }
 }

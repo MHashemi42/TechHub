@@ -70,7 +70,7 @@ public static class AppDbContextSeed
             {
                 Title = "بکاپ واتساپ ؛ نحوه پشتبیان گیری از چت، فایل ها و تمام داده های واتساپ در اندروید",
                 Slug = "how-to-backup-whatsapp-on-android-transfer-to-another-phone",
-                DatePublished = DateTime.UtcNow,
+                DatePublished = DateTimeOffset.UtcNow,
                 AuthorId = admin!.Id,
                 Content = "<p>چت‌های واتساپ فقط در حافظه گوشی ذخیره شده و اگر پاک شوند دیگر نمی‌توان به آن‌ دسترسی داشت. در این مطلب روش‌های بکاپ گرفتن از واتساپ را شرح خواهیم داد</p>",
                 Tags = new Tag[]{ tags[0] },
@@ -80,7 +80,7 @@ public static class AppDbContextSeed
             {
                 Title = "روش‌های ارتقای کامپیوتر‌های قدیمی برای افزایش سرعت و بهبود عملکرد",
                 Slug = "the-five-best-pc-upgrades-to-improve-performance",
-                DatePublished = DateTime.UtcNow,
+                DatePublished = DateTimeOffset.UtcNow,
                 AuthorId = admin!.Id,
                 Content = "<p>در این مقاله بهترین روش‌های ارتقای کامپیوترها و کیس‌های قدیمی را معرفی کرده و توضیح داده‌ایم که چگونه این کار باعث افزایش و بهبود کارایی آن‌ها می‌شود.</p>",
                 Tags = new Tag[] { tags[1] },
