@@ -5,7 +5,7 @@ using TechHub.Core.Repositories;
 
 namespace TechHub.Infrastructure.Data.Repositories;
 
-internal class TagRepository : ITagRepository
+public class TagRepository : ITagRepository
 {
     private readonly AppDbContext _dbContext;
 
