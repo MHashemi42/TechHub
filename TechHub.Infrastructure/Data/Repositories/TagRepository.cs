@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using TechHub.Core.Entities;
 using TechHub.Core.Repositories;
 
@@ -27,6 +28,8 @@ internal class TagRepository : ITagRepository
 
     public async Task<Tag?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
+        Guard.Against.NegativeOrZero(id, nameof(id));
+        
         return await _dbContext.Tags
             .FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }

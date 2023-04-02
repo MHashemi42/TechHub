@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Ardalis.GuardClauses;
+using Microsoft.EntityFrameworkCore;
 using TechHub.Core.Entities;
 using TechHub.Core.Helpers;
 using TechHub.Core.Repositories;
 
 namespace TechHub.Infrastructure.Data.Repositories;
 
-internal class PostRepository : IPostRepository
+public class PostRepository : IPostRepository
 {
     private readonly AppDbContext _dbContext;
 
@@ -22,6 +23,9 @@ internal class PostRepository : IPostRepository
     public async Task<PagedList<Post>> GetAllAsync(int currentPage, int pageSize,
         CancellationToken cancellationToken = default)
     {
+        Guard.Against.NegativeOrZero(currentPage, nameof(currentPage));
+        Guard.Against.NegativeOrZero(pageSize, nameof(pageSize));
+
         List<Post> posts = await _dbContext.Posts
             .AsNoTracking()
             .Include(p => p.Tags)
@@ -37,6 +41,8 @@ internal class PostRepository : IPostRepository
 
     public async Task<Post?> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
+        Guard.Against.NegativeOrZero(id, nameof(id));
+
         return await _dbContext.Posts
             .Include(p => p.Tags)
             .FirstOrDefaultAsync(p => p.Id == id, cancellationToken);
