@@ -20,57 +20,56 @@ public class PostRepositoryTests
         _unitOfWork = new UnitOfWork(dbContext);
     }
 
-    [Theory]
-    [InlineData(-5)]
-    [InlineData(0)]
-    public async Task GetAllAsync_ShouldThrowArgumentExceptionForNegativeOrZeroCurrentPageTheory
-        (int invalidCurrentPage)
+    [Fact]
+    public async Task GetAllAsync_ShouldThrowArgumentExceptionForNegativeOrZeroCurrentPage()
     {
         await Assert.ThrowsAsync<ArgumentException>(() =>
-            _sut.GetAllAsync(invalidCurrentPage, pageSize: 1));
-    }
-
-    [Theory]
-    [InlineData(-5)]
-    [InlineData(0)]
-    public async Task GetAllAsync_ShouldThrowArgumentExceptionForNegativeOrZeroPageSizeTheory
-        (int invalidPageSize)
-    {
-        await Assert.ThrowsAsync<ArgumentException>(() => 
-            _sut.GetAllAsync(currentPage: 1, invalidPageSize));
-    }
-
-    [Theory]
-    [InlineData(-5)]
-    [InlineData(0)]
-    public async Task GetByIdAsync_ShouldThrowArgumentExceptionForNegativeOrZeroIdTheory
-        (int invalidId)
-    {
-        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(invalidId));
+            _sut.GetAllAsync(currentPage: -1, pageSize: 1));
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            _sut.GetAllAsync(currentPage: 0, pageSize: 1));
     }
 
     [Fact]
-    public async Task GetAllAsync_ShouldReturnExpectedPagedList()
+    public async Task GetAllAsync_ShouldThrowArgumentExceptionForNegativeOrZeroPageSize()
     {
-        int totalPostCount = 15;
-        var tempPost = new Post
-        {
-            DatePublished = DateTimeOffset.UtcNow,
-            AuthorId = "authorId",
-            Content = "content",
-            Slug = "slug",
-            ThumbnailPath = "thumbnailPath",
-            Title = "title"
-        };
+        await Assert.ThrowsAsync<ArgumentException>(() => 
+            _sut.GetAllAsync(currentPage: 1, pageSize: -1));
+        await Assert.ThrowsAsync<ArgumentException>(() =>
+            _sut.GetAllAsync(currentPage: 1, pageSize: 0));
+    }
+
+    [Fact]
+    public async Task GetByIdAsync_ShouldThrowArgumentExceptionForNegativeOrZeroId()
+    {
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id: -1));
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id: 0));
+    }
+
+    [Fact]
+    public async Task GetAllAsync_ShouldReturnExpectedPagedListCount()
+    {
+        int totalPostCount = 10;
+        DateTimeOffset utcNow = DateTimeOffset.UtcNow;
         for (int i = 0; i < totalPostCount; i++)
         {
-            _sut.Add(tempPost);
+            _sut.Add(new Post
+            {
+                DatePublished = utcNow,
+                AuthorId = "authorId",
+                Content = "content",
+                Slug = "slug",
+                ThumbnailPath = "thumbnailPath",
+                Title = "title"
+            });
         }
 
         await _unitOfWork.SaveChangesAsync();
 
-        PagedList<Post> posts = await _sut.GetAllAsync(currentPage: 2, pageSize: 5);
-        Assert.Equal(expected: 5, actual: posts.Count);
+        PagedList<Post> posts = await _sut.GetAllAsync(currentPage: 2, pageSize: 3);
+        Assert.Equal(expected: 3, actual: posts.Count);
+
+        posts = await _sut.GetAllAsync(currentPage: 2, pageSize: 6);
+        Assert.Equal(expected: 4, actual: posts.Count);
 
         posts = await _sut.GetAllAsync(currentPage: 4, pageSize: 5);
         Assert.Empty(posts);
