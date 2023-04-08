@@ -9,17 +9,15 @@ public class TagRepositoryTests
     private readonly TagRepository _sut;
     public TagRepositoryTests()
     {
-        var dbContextOptionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
-        var dbContext = new AppDbContext(dbContextOptionsBuilder.Options);
-
+        AppDbContext dbContext = RepositoryTestHelpers.CreateInMemoryDbContext();
         _sut = new TagRepository(dbContext);
     }
 
-    [Fact]
-    public async Task GetByIdAsync_ShouldThrowArgumentExceptionForNegativeOrZeroId()
+    [Theory]
+    [InlineData(-1)]
+    [InlineData(0)]
+    public async Task GetByIdAsync_NegativeOrZeroId_ThrowsArgumentException(int id)
     {
-        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id: -1));
-        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id: 0));
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id));
     }
 }

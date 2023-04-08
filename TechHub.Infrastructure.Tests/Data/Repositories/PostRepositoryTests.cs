@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TechHub.Core.Entities;
+﻿using TechHub.Core.Entities;
 using TechHub.Core.Helpers;
 using TechHub.Infrastructure.Data;
 using TechHub.Infrastructure.Data.Repositories;
@@ -8,16 +7,23 @@ namespace TechHub.Infrastructure.Tests.Data.Repositories;
 
 public class PostRepositoryTests
 {
+    private readonly PostRepository _sut;
+    private readonly UnitOfWork _unitOfWork;
+
+    public PostRepositoryTests()
+    {
+        AppDbContext dbContext = RepositoryTestHelpers.CreateInMemoryDbContext();
+        _sut = new PostRepository(dbContext);
+        _unitOfWork = new UnitOfWork(dbContext);
+    }
+
     [Theory]
     [InlineData(-1)]
     [InlineData(0)]
     public async Task GetAllAsync_NegativeOrZeroCurrentPage_ThrowsArgumentException(int currentPage)
     {
-        AppDbContext dbContext = CreateInMemoryDbContext();
-        PostRepository sut = CreateDefaultPostRepository(dbContext);
-
         await Assert.ThrowsAsync<ArgumentException>(() => 
-            sut.GetAllAsync(currentPage, pageSize: 1));
+            _sut.GetAllAsync(currentPage, pageSize: 1));
     }
 
     [Theory]
@@ -25,11 +31,8 @@ public class PostRepositoryTests
     [InlineData(0)]
     public async Task GetAllAsync_NegativeOrZeroPageSize_ThrowsArgumentException(int pageSize)
     {
-        AppDbContext dbContext = CreateInMemoryDbContext();
-        PostRepository sut = CreateDefaultPostRepository(dbContext);
-
         await Assert.ThrowsAsync<ArgumentException>(() => 
-            sut.GetAllAsync(currentPage: 1, pageSize));
+            _sut.GetAllAsync(currentPage: 1, pageSize));
     }
 
     [Theory]
@@ -37,10 +40,7 @@ public class PostRepositoryTests
     [InlineData(0)]
     public async Task GetByIdAsync_NegativeOrZeroId_ThrowsArgumentException(int id)
     {
-        AppDbContext dbContext = CreateInMemoryDbContext();
-        PostRepository sut = CreateDefaultPostRepository(dbContext);
-
-        await Assert.ThrowsAsync<ArgumentException>(() => sut.GetByIdAsync(id));
+        await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id));
     }
 
     [Theory]
@@ -50,18 +50,15 @@ public class PostRepositoryTests
     public async Task GetAllAsync_Pagination_ReturnsExpectedCount(int currentPage,
         int pageSize, int expectedCount)
     {
-        AppDbContext dbContext = CreateInMemoryDbContext();
-        PostRepository sut = CreateDefaultPostRepository(dbContext);
-        UnitOfWork unitOfWork = CreateDefaultUnitOfWork(dbContext);
         const int TOTAL_POST_COUNT = 10;
         for (int i = 0; i < TOTAL_POST_COUNT; i++)
         {
             Post post = CreateTempPost();
-            sut.Add(post);
+            _sut.Add(post);
         }
-        await unitOfWork.SaveChangesAsync();
+        await _unitOfWork.SaveChangesAsync();
 
-        PagedList<Post> posts = await sut.GetAllAsync(currentPage, pageSize);
+        PagedList<Post> posts = await _sut.GetAllAsync(currentPage, pageSize);
         int actualCount = posts.Count;
 
         Assert.Equal(expectedCount, actualCount);
@@ -78,23 +75,5 @@ public class PostRepositoryTests
             ThumbnailPath = nameof(Post.ThumbnailPath),
             Title = nameof(Post.Title)
         };
-    }
-
-    private static AppDbContext CreateInMemoryDbContext()
-    {
-        var dbContextOptionsBuilder = new DbContextOptionsBuilder<AppDbContext>()
-            .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
-
-        return new AppDbContext(dbContextOptionsBuilder.Options);
-    }
-
-    private static PostRepository CreateDefaultPostRepository(AppDbContext dbContext)
-    {
-        return new PostRepository(dbContext);
-    }
-
-    private static UnitOfWork CreateDefaultUnitOfWork(AppDbContext dbContext)
-    {
-        return new UnitOfWork(dbContext);
     }
 }
