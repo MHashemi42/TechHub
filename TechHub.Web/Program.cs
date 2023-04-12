@@ -30,7 +30,8 @@ using (IServiceScope scope = app.Services.CreateScope())
             .GetRequiredService<RoleManager<IdentityRole>>();
 
         AppDbContext dbContext = scopedProvider.GetRequiredService<AppDbContext>();
-        await AppDbContextSeed.SeedDataAsync(dbContext, userManager, roleManager);
+        await AppDbContextSeed.SeedDataAsync(dbContext, userManager,
+            roleManager, app.Configuration);
     }
     catch (Exception ex)
     {
