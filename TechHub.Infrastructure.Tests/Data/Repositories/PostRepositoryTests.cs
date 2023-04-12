@@ -20,7 +20,7 @@ public class PostRepositoryTests
     [Theory]
     [InlineData(-1)]
     [InlineData(0)]
-    public async Task GetAllAsync_NegativeOrZeroCurrentPage_ThrowsArgumentException(int currentPage)
+    public async Task Page_with_a_negative_or_zero_number_is_invalid(int currentPage)
     {
         await Assert.ThrowsAsync<ArgumentException>(() => 
             _sut.GetAllAsync(currentPage, pageSize: 1));
@@ -29,8 +29,8 @@ public class PostRepositoryTests
     [Theory]
     [InlineData(-1)]
     [InlineData(0)]
-    public async Task GetAllAsync_NegativeOrZeroPageSize_ThrowsArgumentException(int pageSize)
-    {
+    public async Task Page_with_a_negative_or_zero_size_is_invalid(int pageSize)
+    {   
         await Assert.ThrowsAsync<ArgumentException>(() => 
             _sut.GetAllAsync(currentPage: 1, pageSize));
     }
@@ -38,7 +38,7 @@ public class PostRepositoryTests
     [Theory]
     [InlineData(-1)]
     [InlineData(0)]
-    public async Task GetByIdAsync_NegativeOrZeroId_ThrowsArgumentException(int id)
+    public async Task Page_with_a_negative_or_zero_id_is_invalid(int id)
     {
         await Assert.ThrowsAsync<ArgumentException>(() => _sut.GetByIdAsync(id));
     }
@@ -47,7 +47,7 @@ public class PostRepositoryTests
     [InlineData(2, 3, 3)]
     [InlineData(2, 6, 4)]
     [InlineData(4, 5, 0)]
-    public async Task GetAllAsync_Pagination_ReturnsExpectedCount(int currentPage,
+    public async Task Paginate_posts_returns_expected_post_count(int currentPage,
         int pageSize, int expectedCount)
     {
         const int TOTAL_POST_COUNT = 10;
