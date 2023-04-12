@@ -45,7 +45,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
             if (entityEntry.State == EntityState.Modified)
             {
-                entityEntry.Property(e => e.CreatedOn)
+                entityEntry.Property(e => e.ModifiedOn)
                     .CurrentValue = DateTimeOffset.UtcNow;
             }
         }
