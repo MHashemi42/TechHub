@@ -4,7 +4,7 @@ public class HtmlHelpersTests
 {
     [Theory]
     [ClassData(typeof(GetFirstParagraphFromHtmlTestData))]
-    void GetFirstParagraphFromHtml_ReturnsExpectedString(string expected, string html)
+    public void Can_extract_the_first_paragraph_from_html(string expected, string html)
     {
         string firstParagraph = HtmlHelpers.GetFirstParagraphFromHtml(html);
         Assert.Equal(expected, firstParagraph);
