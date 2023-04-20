@@ -4,12 +4,12 @@ namespace TechHub.Core.Entities;
 
 public class Post : EntityBase
 {
-    public string Title { get; set; } = default!;
-    public string Slug { get; set; } = default!;
-    public string Content { get; set; } = default!;
-    public string ThumbnailPath { get; set; } = default!;
+    public required string Title { get; set; }
+    public required string Slug { get; set; }
+    public required string Content { get; set; }
+    public required string ThumbnailPath { get; set; }
     public DateTimeOffset DatePublished { get; set; }
-    public string AuthorId { get; set; } = default!;
+    public required string AuthorId { get; set; }
 
     public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 }

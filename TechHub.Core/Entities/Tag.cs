@@ -4,8 +4,8 @@ namespace TechHub.Core.Entities;
 
 public class Tag : EntityBase
 {
-    public string Name { get; set; } = default!;
-    public string Slug { get; set; } = default!;
+    public required string Name { get; set; }
+    public required string Slug { get; set; }
 
     public ICollection<Post> Posts { get; set; } = new List<Post>();
 }
