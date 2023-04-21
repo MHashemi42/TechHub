@@ -7,27 +7,40 @@ const darkIcon = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                 </svg>`;
 
 const currentTheme = localStorage.getItem("theme");
+const btnSwitchTheme = document.getElementById('btnSwitchTheme');
+const btnSwitchLight = document.getElementById('btnSwitchLight');
+const btnSwitchDark = document.getElementById('btnSwitchDark');
+
 if (currentTheme == "dark") {
     setThemeToDark();
 } else {
     setThemeToLight();
 }
 
-document.getElementById('btnSwitchLight').addEventListener('click', () => {
-    setThemeToLight();
-})
-document.getElementById('btnSwitchDark').addEventListener('click', () => {
-    setThemeToDark();
-})
+if (btnSwitchLight != null) {
+    btnSwitchLight.addEventListener('click', () => {
+        setThemeToLight();
+    })
+}
+
+if (btnSwitchDark != null) {
+    btnSwitchDark.addEventListener('click', () => {
+        setThemeToDark();
+    })
+}
 
 function setThemeToDark() {
     document.documentElement.setAttribute('data-bs-theme', 'dark');
-    document.getElementById('btnSwitchTheme').innerHTML = 'تم ' + darkIcon;
+    if (btnSwitchTheme != null) {
+        btnSwitchTheme.innerHTML = 'تم ' + darkIcon;
+    }
     localStorage.setItem("theme", "dark");
 }
 
 function setThemeToLight() {
     document.documentElement.setAttribute('data-bs-theme', 'light');
-    document.getElementById('btnSwitchTheme').innerHTML = 'تم ' + lightIcon;
+    if (btnSwitchTheme != null) {
+        btnSwitchTheme.innerHTML = 'تم ' + lightIcon;
+    }
     localStorage.setItem("theme", "light");
 }
