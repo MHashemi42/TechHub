@@ -1,0 +1,30 @@
+﻿@page
+@model TechHub.Web.Pages.Account.LoginModel
+@{
+    Layout = "Shared/_Layout";
+    ViewData["Title"] = "ورود به وبسایت تک‌هاب";
+}
+<div class="row justify-content-center text-center d-flex align-items-center vh-100">
+    <div class="col-8 col-sm-7 col-md-6 col-lg-5 col-xl-4">
+        <form>
+            <a class="h2 text-decoration-none" asp-page="/Index">TechHub</a>
+            <h1 class="h3 mb-3 fw-normal">ورود به حساب کاربری</h1>
+
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingInput" placeholder="ایمیل">
+                <label for="floatingInput">ایمیل</label>
+            </div>
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="رمز عبور">
+                <label for="floatingPassword">رمز عبور</label>
+            </div>
+
+            <div class="checkbox my-3">
+                <label>
+                    <input type="checkbox" value="remember-me"> من را بخاطر بسپار
+                </label>
+            </div>
+            <button class="w-100 btn btn-lg btn-primary" type="submit">ورود</button>
+        </form>
+    </div>
+</div>
